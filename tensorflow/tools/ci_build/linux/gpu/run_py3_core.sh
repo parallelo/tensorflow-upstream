@@ -31,7 +31,7 @@ export CC_OPT_FLAGS='-mavx'
 export TF_NEED_CUDA=1
 export TF_CUDA_COMPUTE_CAPABILITIES=3.7
 
-yes "" | $PYTHON_BIN_PATH configure.py
+printf '\n\n\n\n\n\n\n\n\n\nN\n\n\n\n\n\n\n\n' | $PYTHON_BIN_PATH configure.py
 
 # Run bazel test command. Double test timeouts to avoid flakes.
 bazel test --config=cuda --test_tag_filters=-no_oss,-oss_serial,-no_gpu,-benchmark-test -k \
