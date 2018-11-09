@@ -96,7 +96,11 @@ RUN cat /opt/rocm/bin/target.lst
 
 # Build rocTracer
 ENV CMAKE_PREFIX_PATH=/opt/rocm/lib:/opt/rocm/include/hsa
-RUN cd $HOME/roctracer && mkdir build && cd build && cmake .. && make -j$(nproc) && mkdir -p /opt/rocm/roctracer/lib && cp ./libroctracer* /opt/rocm/roctracer/lib/
+RUN cd $HOME/roctracer && mkdir build && cd build && cmake .. && make -j$(nproc)
+RUN cd $HOME/roctracer && \
+    mkdir -p /opt/rocm/roctracer/lib && cp ./build/libroctracer* /opt/rocm/roctracer/lib/ && \
+    cp -r inc /opt/rocm/roctracer/ && \
+    ln -s /opt/rocm/roctracer/inc/roctracer.h /opt/rocm/include/hip/roctracer.h 
 
 # Build MIOpen and dependencies
 #RUN cd $HOME && git clone https://github.com/RadeonOpenCompute/rocm-cmake.git && cd $HOME/rocm-cmake && mkdir -p build && cd build && cmake .. && make -j$(nproc) package && dpkg -i ./*.deb
@@ -158,8 +162,9 @@ RUN mkdir /bazel && \
 
 # Download and build TensorFlow.
 WORKDIR /tensorflow-upstream
+RUN git clone --branch=roctracer-hip-frontend-181109 --depth=1 https://github.com/parallelo/tensorflow-upstream.git .
 #RUN git clone --branch=roctracer-hip-frontend-180807 --depth=1 https://github.com/eshcherb/tensorflow-upstream.git .
-RUN git clone --branch=r1.12-rocm --depth=1 https://github.com/ROCmSoftwarePlatform/tensorflow-upstream.git .
+#RUN git clone --branch=r1.12-rocm --depth=1 https://github.com/ROCmSoftwarePlatform/tensorflow-upstream.git .
 
 # Set up the master bazelrc configuration file.
 RUN cp tensorflow/tools/ci_build/install/.bazelrc /etc/bazel.bazelrc
