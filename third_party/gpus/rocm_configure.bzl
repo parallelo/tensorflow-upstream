@@ -350,7 +350,6 @@ def _find_rocm_lib(
     auto_configure_fail("Cannot find rocm library %s" % file_name)
 
 def _find_libs(repository_ctx, rocm_config):
-<<<<<<< 17bbdec1c8a0f68389589ed36f2419293de86113
     """Returns the ROCm libraries on the system.
 
     Args:
