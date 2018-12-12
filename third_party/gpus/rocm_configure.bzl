@@ -729,7 +729,6 @@ def _create_local_rocm_repository(repository_ctx):
     }
     if _enable_roctracer(repository_ctx):
         rocm_config_dict["%{roctracer_is_configured}"] = "True"
-        rocm_config_dict["%{rocm_extra_copts}"] += "-DTENSORFLOW_USE_ROCM_GPU_TRACER=1"
 
     _tpl(
         repository_ctx,

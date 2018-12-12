@@ -14,7 +14,7 @@ def if_rocm(if_true, if_false = []):
 
 def rocm_default_copts():
     """Default options for all ROCm compilations."""
-    return if_rocm(["-x", "rocm", "-DTENSORFLOW_USE_ROCM=1"] + %{rocm_extra_copts})
+    return if_rocm(["-x", "rocm", "-DTENSORFLOW_USE_ROCM=1"] + if_roctracer_is_configured(["-DTENSORFLOW_USE_ROCM_GPU_TRACER=1"]) + %{rocm_extra_copts})
 
 
 def rocm_copts(opts = []):

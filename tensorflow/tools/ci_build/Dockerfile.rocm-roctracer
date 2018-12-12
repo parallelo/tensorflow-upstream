@@ -84,11 +84,11 @@ RUN cd $HOME && git clone -b amd-master https://github.com/ROCmSoftwarePlatform/
 RUN cd $HOME && git clone -b roctracer-hip-frontend-181113 --recursive https://github.com/eshcherb/hcc.git
 RUN cd $HOME && git clone -b roctracer-hip-frontend-181113 https://github.com/eshcherb/HIP.git
 # build HCC
-RUN cd $HOME/hcc && mkdir build && cd build && cmake -DUSE_PROF_API=1 -DPROF_API_HEADER_PATH=$HOME/roctracer/inc/roctracer .. && sudo make package -j$(nproc) && sudo dpkg -i *.deb
+RUN cd $HOME/hcc && mkdir build && cd build && cmake -DUSE_PROF_API=1 -DPROF_API_HEADER_PATH=$HOME/roctracer/inc/ext .. && make package -j$(nproc) && dpkg -i *.deb
 # build HIP
-RUN cd $HOME/HIP && mkdir build && cd build && cmake -DUSE_PROF_API=1 -DPROF_API_HEADER_PATH=$HOME/roctracer/inc/roctracer .. && sudo make package -j$(nproc) && sudo dpkg -i *.deb
+RUN cd $HOME/HIP && mkdir build && cd build && cmake -DUSE_PROF_API=1 -DPROF_API_HEADER_PATH=$HOME/roctracer/inc/ext .. && make package -j$(nproc) && dpkg -i *.deb
 # build rocTracer
-RUN cd $HOME/roctracer && mkdir build && cd build && HCC_HOME=/opt/rocm/hcc HIP_PATH=/opt/rocm/hip CMAKE_PREFIX_PATH=/opt/rocm/lib:/opt/rocm/include/hsa cmake -DCMAKE_INSTALL_PREFIX=/opt/rocm .. && make package -j$(nproc) && sudo dpkg -i *.deb
+RUN cd $HOME/roctracer && mkdir build && cd build && HCC_HOME=/opt/rocm/hcc HIP_PATH=/opt/rocm/hip CMAKE_PREFIX_PATH=/opt/rocm/lib:/opt/rocm/include/hsa cmake -DCMAKE_INSTALL_PREFIX=/opt/rocm .. && make package -j$(nproc) && dpkg -i *.deb
 
 # Add target file to help determine which device(s) to build for
 RUN bash -c 'echo -e "gfx803\ngfx900\ngfx906" >> /opt/rocm/bin/target.lst'
