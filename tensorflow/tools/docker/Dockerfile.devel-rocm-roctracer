@@ -158,7 +158,7 @@ RUN tensorflow/tools/ci_build/builds/configured ROCM-ROCTRACER \
         tensorflow/tools/pip_package:build_pip_package
 RUN bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/pip && \
     pip --no-cache-dir install --upgrade /tmp/pip/tensorflow-*.whl
-#RUN bazel build --config=rocm//tensorflow/core/profiler:profiler
+RUN bazel build --config=rocm //tensorflow/core/profiler:profiler
 
 # Clean up pip wheel and Bazel cache when done.
 #RUN rm -rf /tmp/pip && \
